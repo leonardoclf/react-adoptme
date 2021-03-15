@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import Results from "./Results"
+import { useEffect, useState, useContext } from "react";
+import ThemeContext from './ThemeContext';
+import Results from "./Results";
 import useBreedList from "./useBreedList";
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
@@ -10,6 +11,7 @@ const SearchParams = () => {
   const [breed, updateBreed] = useState("");
   const [pets, setPets] = useState([]);
   const [breeds] = useBreedList(animal);
+  const [theme, setTheme] = useContext(ThemeContext);
 
   useEffect(() => {
     requestPets();
@@ -23,7 +25,7 @@ const SearchParams = () => {
 
     setPets(json.pets);
   }
-
+  
   return (
     <div className="search-params">
       <form>
@@ -69,7 +71,18 @@ const SearchParams = () => {
             ))}
           </select>
         </label>
-        <button>Submit</button>
+        <label htmlFor="theme">
+          Theme
+          <select value={theme}
+          onChange={e => setTheme(e.target.value)}
+          onBlur={e => setTheme(e.target.value)}>
+            <option value="darkblue">Dark Blue</option>
+            <option value="peru">Peru</option>
+            <option value="chartreuse">Chartreuse</option>
+            <option value="mediumorchid">Medium Orchid</option>
+          </select>
+        </label>
+        <button style={ { backgroundColor: theme } }>Submit</button>
       </form>
         <Results pets={pets} />      
     </div>
@@ -179,4 +192,10 @@ export default SearchParams;
     {} - javascript expression
 
     Em regra, não coloca o index porque o index não fecha.
+*/
+
+
+
+/*
+  Context any location;  
 */
